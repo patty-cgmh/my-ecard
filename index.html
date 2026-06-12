@@ -603,19 +603,21 @@ function downloadQR() {
   }, 300);
 }
 </script>
+<script>
+function saveVCard() {
   const vcard = [
     'BEGIN:VCARD',
     'VERSION:3.0',
     'FN:李佩怡 (Patty)',
     'N:李;佩怡;;;',
     'NICKNAME:Patty',
-    'ORG:高雄長庚紀念醫院;國際醫療中心',
+    'ORG:高雄長庚紀念醫院',
     'TITLE:遠距醫療管理師',
     'TEL;TYPE=WORK,VOICE:+886-7-7317123',
     'TEL;TYPE=WORK,VOICE;X-EXTENSION:3975',
     'EMAIL;TYPE=WORK:pei506@cgmh.org.tw',
     'ADR;TYPE=WORK:;;大埤路123號;鳥松區;高雄市;83301;台灣',
-    'NOTE:健康台灣深耕計畫 / 遠距醫療服務 / 皮膚科、眼科、耳鼻喉科、胃腸科、風濕免疫科、復健科、急診',
+    'NOTE:遠距醫療服務 / 皮膚科、眼科、耳鼻喉科、胃腸科、風濕免疫科、復健科、急診',
     'END:VCARD'
   ].join('\r\n');
 
@@ -629,7 +631,6 @@ function downloadQR() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 
-  // Show toast
   const toast = document.getElementById('toast');
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3000);
