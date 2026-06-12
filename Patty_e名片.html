@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a3a6e">
+<title>李佩怡 Patty · 遠距醫療管理師</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --navy:    #1a3a6e;
+    --navy2:   #1e4fa0;
+    --blue:    #2d6be4;
+    --cyan:    #38bdf8;
+    --white:   #ffffff;
+    --offwhite:#f4f7fc;
+    --text:    #1e293b;
+    --muted:   #64748b;
+    --border:  #e2e8f0;
+    --green:   #10b981;
+    --amber:   #f59e0b;
+    --red:     #ef4444;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  html, body {
+    min-height:100%;
+    background: var(--offwhite);
+    font-family: 'Inter','Noto Sans TC',sans-serif;
+    color: var(--text);
+  }
+
+  /* ── CARD CONTAINER ── */
+  .card {
+    max-width: 420px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(150deg, var(--navy) 0%, var(--navy2) 55%, #2563be 100%);
+    padding: 52px 28px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Signature wave — connection rings */
+  .header::before {
+    content:'';
+    position:absolute;
+    right:-50px; top:-50px;
+    width:220px; height:220px;
+    border-radius:50%;
+    border: 2px solid rgba(255,255,255,0.07);
+  }
+  .header::after {
+    content:'';
+    position:absolute;
+    right:-20px; top:-20px;
+    width:140px; height:140px;
+    border-radius:50%;
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+  .ring3 {
+    position:absolute;
+    right:10px; top:10px;
+    width:70px; height:70px;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,0.14);
+  }
+
+  /* Status pill */
+  .status-pill {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:20px;
+    padding:4px 12px;
+    font-size:11px;
+    color:rgba(255,255,255,0.85);
+    letter-spacing:0.5px;
+    margin-bottom:22px;
+    position:relative;
+    z-index:1;
+  }
+  .pulse-dot {
+    width:7px; height:7px;
+    border-radius:50%;
+    background:#4ade80;
+    flex-shrink:0;
+    animation:pulseAnim 2.2s ease-in-out infinite;
+  }
+  @keyframes pulseAnim {
+    0%,100%{opacity:1;transform:scale(1)}
+    50%{opacity:0.5;transform:scale(0.8)}
+  }
+
+  .name-zh {
+    font-family:'Noto Sans TC',sans-serif;
+    font-size:38px;
+    font-weight:700;
+    color:#fff;
+    letter-spacing:6px;
+    line-height:1;
+    margin-bottom:7px;
+    position:relative;
+    z-index:1;
+  }
+  .name-en {
+    font-size:14px;
+    font-weight:300;
+    color:rgba(255,255,255,0.65);
+    letter-spacing:3px;
+    margin-bottom:16px;
+    position:relative;
+    z-index:1;
+  }
+  .title-badge {
+    display:inline-block;
+    background:rgba(255,255,255,0.14);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:6px;
+    padding:6px 14px;
+    font-size:12.5px;
+    color:rgba(255,255,255,0.9);
+    letter-spacing:1.5px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ── WAVE DIVIDER ── */
+  .wave {
+    display:block;
+    margin-top:-2px;
+    background:var(--navy2);
+  }
+
+  /* ── HOSPITAL TAG STRIP ── */
+  .hosp-strip {
+    background: linear-gradient(90deg, var(--navy2) 0%, #1a3a6e 100%);
+    padding:12px 20px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .hosp-strip::-webkit-scrollbar { display:none; }
+  .hosp-inner {
+    display:flex;
+    gap:7px;
+    width:max-content;
+  }
+  .hosp-tag {
+    background:rgba(255,255,255,0.09);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:4px;
+    padding:3px 9px;
+    font-size:10.5px;
+    color:rgba(255,255,255,0.75);
+    white-space:nowrap;
+  }
+  .strip-label {
+    font-size:9px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.35);
+    padding:8px 20px 2px;
+    background:var(--navy2);
+  }
+
+  /* ── ACTION BUTTONS ── */
+  .actions {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    padding:24px 20px 8px;
+  }
+  .action-btn {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:18px 12px;
+    border-radius:14px;
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+    transition:transform 0.15s, box-shadow 0.15s;
+    -webkit-user-select:none;
+    user-select:none;
+  }
+  .action-btn:active { transform:scale(0.96); }
+  .action-btn .btn-icon {
+    width:42px; height:42px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .action-btn .btn-label {
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.5px;
+  }
+  .action-btn .btn-sub {
+    font-size:10px;
+    opacity:0.65;
+    letter-spacing:0.3px;
+  }
+
+  .btn-call {
+    background:#eff6ff;
+    color:#1d4ed8;
+  }
+  .btn-call .btn-icon { background:#2d6be4; }
+
+  .btn-mail {
+    background:#f0fdf4;
+    color:#166534;
+  }
+  .btn-mail .btn-icon { background:#10b981; }
+
+  .btn-map {
+    background:#fff7ed;
+    color:#9a3412;
+  }
+  .btn-map .btn-icon { background:#f97316; }
+
+  .btn-save {
+    background:#fdf4ff;
+    color:#6b21a8;
+    grid-column:1/-1;
+    flex-direction:row;
+    gap:14px;
+    padding:16px 20px;
+  }
+  .btn-save .btn-icon { background:#a855f7; width:38px; height:38px; flex-shrink:0; }
+  .btn-save .btn-text { text-align:left; }
+  .btn-save .btn-label { font-size:13px; }
+
+  /* ── INFO SECTION ── */
+  .info-section {
+    padding:24px 20px 0;
+  }
+  .info-row {
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+    text-decoration:none;
+    color:inherit;
+    transition:background 0.1s;
+    border-radius:4px;
+  }
+  .info-row:last-child { border-bottom:none; }
+  .info-icon {
+    width:36px; height:36px;
+    border-radius:10px;
+    background:var(--offwhite);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    color:var(--navy);
+  }
+  .info-content {}
+  .info-label {
+    font-size:10px;
+    color:var(--muted);
+    letter-spacing:0.5px;
+    margin-bottom:2px;
+  }
+  .info-value {
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--text);
+  }
+  .info-row-tappable { cursor:pointer; }
+  .info-row-tappable:active { background:var(--offwhite); }
+
+  /* ── SPECIALTIES ── */
+  .section-block {
+    padding:20px 20px 0;
+  }
+  .section-title {
+    font-size:10px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:12px;
+    font-weight:600;
+  }
+  .spec-grid {
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+  .spec-tag {
+    background:var(--offwhite);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:5px 13px;
+    font-size:11.5px;
+    color:var(--text);
+    font-weight:500;
+  }
+
+  /* ── PARTNERS ── */
+  .partners-list {
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .p-tag {
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    border-radius:5px;
+    padding:4px 10px;
+    font-size:11px;
+    color:#1e40af;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top:28px;
+    padding:20px;
+    text-align:center;
+    border-top:1px solid var(--border);
+    margin-bottom:24px;
+  }
+  .footer-logo {
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:1px;
+  }
+  .footer-hosp {
+    font-size:12px;
+    color:var(--navy);
+    font-weight:600;
+    margin-top:4px;
+    letter-spacing:1px;
+  }
+
+  /* ── SHARE TOAST ── */
+  .toast {
+    position:fixed;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%) translateY(80px);
+    background:#1e293b;
+    color:#fff;
+    padding:12px 22px;
+    border-radius:24px;
+    font-size:13px;
+    font-weight:500;
+    transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    z-index:999;
+    white-space:nowrap;
+    pointer-events:none;
+  }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="ring3"></div>
+    <div class="status-pill">
+      <span class="pulse-dot"></span>
+      高雄長庚
+    </div>
+    <div class="name-zh">李 佩 怡</div>
+    <div class="name-en">PEI-YI LI &nbsp;·&nbsp; PATTY</div>
+    <div class="title-badge">遠距醫療管理師</div>
+  </div>
+
+  <!-- Wave SVG -->
+  <svg class="wave" viewBox="0 0 420 28" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:28px;width:100%;display:block;background:#f4f7fc;">
+    <path d="M0 0 Q105 28 210 14 Q315 0 420 20 L420 0 Z" fill="#1e4fa0"/>
+  </svg>
+
+  <!-- Hospital strip -->
+  <div class="strip-label">服務合作院所 · 滑動查看更多</div>
+  <div class="hosp-strip">
+    <div class="hosp-inner">
+      <div class="hosp-tag" style="border-color:rgba(96,200,255,0.3);color:rgba(150,220,255,0.8)">高雄</div>
+      <div class="hosp-tag">甲仙區衛生所</div>
+      <div class="hosp-tag" style="border-color:rgba(96,200,255,0.3);color:rgba(150,220,255,0.8)">澎湖</div>
+      <div class="hosp-tag">澎湖醫院</div>
+      <div class="hosp-tag" style="border-color:rgba(96,200,255,0.3);color:rgba(150,220,255,0.8)">屏東</div>
+      <div class="hosp-tag">南門醫院</div>
+      <div class="hosp-tag">屏東基督教醫院</div>
+      <div class="hosp-tag">琉球鄉衛生所</div>
+      <div class="hosp-tag">獅子鄉衛生所</div>
+      <div class="hosp-tag">安泰醫院</div>
+      <div class="hosp-tag">西嶼鄉衛生所</div>
+      <div class="hosp-tag">望安鄉將軍衛生所</div>
+      <div class="hosp-tag">大新醫院</div>
+      <div class="hosp-tag">恆春基督教醫院</div>
+      <div class="hosp-tag">霧台鄉衛生所</div>
+      <div class="hosp-tag">牡丹鄉衛生所</div>
+      <div class="hosp-tag">恆春旅遊醫院</div>
+      <div class="hosp-tag">信義鄉衛生所</div>
+      <div class="hosp-tag">來義鄉衛生所</div>
+      <div class="hosp-tag">枋寮醫院</div>
+      <div class="hosp-tag">三地門鄉衛生所</div>
+      <div class="hosp-tag">春日鄉衛生所</div>
+      <div class="hosp-tag">澎湖監獄</div>
+      <div class="hosp-tag">屏東監獄</div>
+      <div class="hosp-tag" style="border-color:rgba(96,200,255,0.3);color:rgba(150,220,255,0.8)">花蓮</div>
+      <div class="hosp-tag">玉里醫院</div>
+      <div class="hosp-tag">花蓮豐濱原住民分院</div>
+      <div class="hosp-tag" style="border-color:rgba(96,200,255,0.3);color:rgba(150,220,255,0.8)">台東</div>
+      <div class="hosp-tag">臺東醫院成功分院</div>
+    </div>
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="actions">
+
+    <a class="action-btn btn-call" href="tel:+886-7-7317123">
+      <div class="btn-icon">
+        <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2.2" viewBox="0 0 24 24">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.63 19.79 19.79 0 01.01 4 2 2 0 012 1.82h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+      </div>
+      <span class="btn-label">撥打電話</span>
+      <span class="btn-sub">#3975</span>
+    </a>
+
+    <a class="action-btn btn-mail" href="mailto:pei506@cgmh.org.tw">
+      <div class="btn-icon">
+        <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2.2" viewBox="0 0 24 24">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M2 7l10 7 10-7"/>
+        </svg>
+      </div>
+      <span class="btn-label">寄送信件</span>
+      <span class="btn-sub">pei506@cgmh.org.tw</span>
+    </a>
+
+    <a class="action-btn btn-map" href="https://maps.google.com/?q=高雄市鳥松區大埤路123號+高雄長庚紀念醫院" target="_blank">
+      <div class="btn-icon">
+        <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2.2" viewBox="0 0 24 24">
+          <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>
+      <span class="btn-label">導航前往</span>
+      <span class="btn-sub">鳥松區大埤路 123 號</span>
+    </a>
+
+    <button class="action-btn btn-save" onclick="saveVCard()">
+      <div class="btn-icon">
+        <svg width="19" height="19" fill="none" stroke="#fff" stroke-width="2.2" viewBox="0 0 24 24">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+      </div>
+      <div class="btn-text">
+        <div class="btn-label">儲存至通訊錄</div>
+        <div class="btn-sub">下載 vCard 聯絡人</div>
+      </div>
+    </button>
+
+  </div>
+
+  <!-- INFO ROWS -->
+  <div class="info-section">
+
+    <a class="info-row info-row-tappable" href="tel:+886773171233975">
+      <div class="info-icon">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.63 19.79 19.79 0 01.01 4 2 2 0 012 1.82h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+      </div>
+      <div class="info-content">
+        <div class="info-label">電話</div>
+        <div class="info-value">+886-7-7317123 轉 3975</div>
+      </div>
+    </a>
+
+    <a class="info-row info-row-tappable" href="mailto:pei506@cgmh.org.tw">
+      <div class="info-icon">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M2 7l10 7 10-7"/>
+        </svg>
+      </div>
+      <div class="info-content">
+        <div class="info-label">電子郵件</div>
+        <div class="info-value">pei506@cgmh.org.tw</div>
+      </div>
+    </a>
+
+    <a class="info-row info-row-tappable" href="https://maps.google.com/?q=高雄市鳥松區大埤路123號+高雄長庚紀念醫院" target="_blank">
+      <div class="info-icon">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>
+      <div class="info-content">
+        <div class="info-label">地址</div>
+        <div class="info-value">高雄市鳥松區大埤路 123 號</div>
+      </div>
+    </a>
+
+
+
+  </div>
+
+  <!-- SPECIALTIES -->
+  <div class="section-block" style="margin-top:20px;">
+    <div class="section-title">遠距服務科別</div>
+    <div class="spec-grid">
+      <span class="spec-tag">🔬 皮膚科</span>
+      <span class="spec-tag">👁 眼科</span>
+      <span class="spec-tag">👂 耳鼻喉科</span>
+      <span class="spec-tag">🫁 胃腸科</span>
+      <span class="spec-tag">🦴 風濕免疫科</span>
+      <span class="spec-tag">🏃 復健科</span>
+      <span class="spec-tag">🚨 急診</span>
+    </div>
+  </div>
+
+  <!-- QR CODE -->
+  <div class="section-block" style="margin-top:24px;">
+    <div class="section-title">掃描 QR Code 開啟名片</div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px;background:var(--offwhite);border-radius:14px;border:1px solid var(--border);">
+      <div id="qrcode" style="background:#fff;padding:12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);"></div>
+      <div style="font-size:11px;color:var(--muted);letter-spacing:0.5px;text-align:center;">掃描後可在手機瀏覽器開啟此名片</div>
+      <button onclick="downloadQR()" style="display:flex;align-items:center;gap:7px;background:var(--navy);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:0.5px;">
+        <svg width="14" height="14" fill="none" stroke="#fff" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        下載 QR Code 圖片
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-logo">KAOHSIUNG CHANG GUNG MEMORIAL HOSPITAL</div>
+    <div class="footer-hosp">高雄長庚紀念醫院</div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✓ 聯絡人已下載，請開啟並儲存</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+// Generate QR code pointing to current page URL
+const currentUrl = window.location.href;
+const qr = new QRCode(document.getElementById('qrcode'), {
+  text: currentUrl,
+  width: 180,
+  height: 180,
+  colorDark: '#1a3a6e',
+  colorLight: '#ffffff',
+  correctLevel: QRCode.CorrectLevel.M
+});
+
+function downloadQR() {
+  setTimeout(() => {
+    const canvas = document.querySelector('#qrcode canvas');
+    if (!canvas) {
+      alert('請稍候 QR Code 載入完成後再下載');
+      return;
+    }
+    // Add white padding + title
+    const pad = 20;
+    const out = document.createElement('canvas');
+    out.width  = canvas.width  + pad * 2;
+    out.height = canvas.height + pad * 2 + 36;
+    const ctx = out.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, out.width, out.height);
+    ctx.drawImage(canvas, pad, pad);
+    ctx.fillStyle = '#1a3a6e';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('李佩怡 Patty · 遠距醫療管理師', out.width / 2, out.height - 10);
+    const a = document.createElement('a');
+    a.download = 'Patty_QRCode.png';
+    a.href = out.toDataURL('image/png');
+    a.click();
+  }, 300);
+}
+</script>
+  const vcard = [
+    'BEGIN:VCARD',
+    'VERSION:3.0',
+    'FN:李佩怡 (Patty)',
+    'N:李;佩怡;;;',
+    'NICKNAME:Patty',
+    'ORG:高雄長庚紀念醫院;國際醫療中心',
+    'TITLE:遠距醫療管理師',
+    'TEL;TYPE=WORK,VOICE:+886-7-7317123',
+    'TEL;TYPE=WORK,VOICE;X-EXTENSION:3975',
+    'EMAIL;TYPE=WORK:pei506@cgmh.org.tw',
+    'ADR;TYPE=WORK:;;大埤路123號;鳥松區;高雄市;83301;台灣',
+    'NOTE:健康台灣深耕計畫 / 遠距醫療服務 / 皮膚科、眼科、耳鼻喉科、胃腸科、風濕免疫科、復健科、急診',
+    'END:VCARD'
+  ].join('\r\n');
+
+  const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Patty_李佩怡.vcf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  // Show toast
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+</script>
+
+</body>
+</html>
